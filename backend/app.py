@@ -9,6 +9,7 @@ from suppliers import (
 )
 from purchases import add_purchase
 from purchases import add_purchase, get_purchase_history
+from sales import add_sale, get_sales_history
 
 app = Flask(__name__)
 
@@ -116,6 +117,29 @@ def purchase_history():
     purchases = get_purchase_history()
 
     return jsonify(purchases)
+
+@app.route("/sales", methods=["POST"])
+def create_sale():
+
+    data = request.json
+
+    result = add_sale(
+        data["product_id"],
+        data["quantity"],
+        data["price"]
+    )
+
+    if not result["success"]:
+        return jsonify(result), 400
+
+    return jsonify(result), 201
+
+@app.route("/sales", methods=["GET"])
+def sales_history():
+
+    sales = get_sales_history()
+
+    return jsonify(sales)
 
 # ---------------- RUN SERVER ----------------
 
