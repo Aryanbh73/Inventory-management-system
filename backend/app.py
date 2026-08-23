@@ -1,15 +1,14 @@
 from flask import Flask, jsonify, request
 from database import get_db_connection
 from products import add_product
-from suppliers import add_supplier, get_all_suppliers
 from suppliers import (
     add_supplier,
     get_all_suppliers,
     get_supplier_products
 )
-from purchases import add_purchase
 from purchases import add_purchase, get_purchase_history
 from sales import add_sale, get_sales_history
+from inventory import (get_inventory, get_low_stock_products, get_out_of_stock_products,get_reorder_list)
 
 app = Flask(__name__)
 
@@ -140,6 +139,34 @@ def sales_history():
     sales = get_sales_history()
 
     return jsonify(sales)
+
+@app.route("/inventory", methods=["GET"])
+def inventory():
+
+    products = get_inventory()
+
+    return jsonify(products)
+
+@app.route("/inventory/low-stock", methods=["GET"])
+def low_stock():
+
+    products = get_low_stock_products()
+
+    return jsonify(products)
+
+@app.route("/inventory/out-of-stock", methods=["GET"])
+def out_of_stock():
+
+    products = get_out_of_stock_products()
+
+    return jsonify(products)
+
+@app.route("/inventory/reorder-list", methods=["GET"])
+def reorder_list():
+
+    products = get_reorder_list()
+
+    return jsonify(products)
 
 # ---------------- RUN SERVER ----------------
 
