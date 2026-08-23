@@ -1,5 +1,5 @@
 from database import get_db_connection
-
+from excel_sync import create_excel_file
 
 def add_sale(product_id, quantity, price):
 
@@ -72,6 +72,7 @@ def add_sale(product_id, quantity, price):
         )
 
         connection.commit()
+        create_excel_file()
 
         # Get updated stock
         cursor.execute(
