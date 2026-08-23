@@ -1,5 +1,6 @@
 from database import get_db_connection
-
+from excel_sync import create_excel_file
+from google_sheets import update_google_sheet
 
 def add_purchase(product_id, supplier_id, quantity, price):
 
@@ -68,6 +69,8 @@ def add_purchase(product_id, supplier_id, quantity, price):
         )
 
         connection.commit()
+        create_excel_file()
+        update_google_sheet()
 
         cursor.execute(
             """

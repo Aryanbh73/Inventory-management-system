@@ -16,3 +16,4 @@ token.json
 .vscode/
 
 .DS_Store
+credentials 2.json
