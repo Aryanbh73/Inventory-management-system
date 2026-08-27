@@ -31,6 +31,7 @@ from excel_sync import create_excel_file  # type: ignore[import-not-found]
 from google_sheets import update_google_sheet # type: ignore[import-not-found]
 from forecast import forecast_product # type: ignore[import-not-found]
 from reorder_engine import (generate_reorder_recommendations) # type: ignore[import-not-found]
+from purchase_orders import create_purchase_order # type: ignore[import-not-found]
 
 st.set_page_config(
     page_title="Smart Inventory Dashboard",
@@ -435,6 +436,48 @@ if st.button(
 
     st.success(
         "Purchase recommendation prepared."
+    )
+
+st.subheader("🛒 Create Purchase Order")
+
+supplier_id = st.number_input(
+    "Supplier ID",
+    min_value=1,
+    step=1
+)
+
+product_id = st.number_input(
+    "Product ID",
+    min_value=1,
+    step=1
+)
+
+quantity = st.number_input(
+    "Quantity",
+    min_value=1,
+    step=1
+)
+
+unit_price = st.number_input(
+    "Purchase Price",
+    min_value=0.0,
+    step=1.0
+)
+
+if st.button(
+    "Create Purchase Order",
+    key="create_purchase_order"
+):
+
+    order_id = create_purchase_order(
+        int(supplier_id),
+        int(product_id),
+        int(quantity),
+        float(unit_price)
+    )
+
+    st.success(
+        f"Purchase Order #{order_id} created successfully!"
     )
 
 st.subheader("⚠️ Low Stock Products")
